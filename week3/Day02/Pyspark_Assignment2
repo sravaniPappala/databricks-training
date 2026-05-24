@@ -1,0 +1,368 @@
+# =========================
+# SELECT
+# =========================
+
+# Select only emp_name and salary
+df.select("emp_name", "salary").display()
+
+# Select emp_id, emp_name, and department
+df.select("emp_id", "emp_name", "department").display()
+
+# Select city, designation, and salary
+df.select("city", "designation", "salary").display()
+
+# Select all employees from only IT department with selected columns
+df.filter(col("department") == "IT") \
+  .select("emp_id", "emp_name", "department").display()
+
+# Select emp_name, joining_date, and salary
+df.select("emp_name", "joining_date", "salary").display()
+
+# Select first 5 columns from dataframe
+df.select(df.columns[:5]).display()
+
+# Select employees whose salary column only
+df.select("salary").display()
+
+# Select emp_name and city for employees from Hyderabad
+df.filter(col("city") == "Hyderabad") \
+  .select("emp_name", "city").display()
+
+# Select designation and department
+df.select("designation", "department").display()
+
+# Select all columns except joining_date
+df.drop("joining_date").display()
+
+
+# =========================
+# ALIAS
+# =========================
+
+# Display emp_name as employee_name
+df.select(col("emp_name").alias("employee_name")).display()
+
+# Display salary as monthly_salary
+df.select(col("salary").alias("monthly_salary")).display()
+
+# Display department as dept
+df.select(col("department").alias("dept")).display()
+
+# Display joining_date as doj
+df.select(col("joining_date").alias("doj")).display()
+
+# Select emp_name as name and city as location
+df.select(
+    col("emp_name").alias("name"),
+    col("city").alias("location")
+).display()
+
+# Display designation as job_role
+df.select(col("designation").alias("job_role")).display()
+
+# Display age as employee_age
+df.select(col("age").alias("employee_age")).display()
+
+# Display salary as emp_salary and department as emp_dept
+df.select(
+    col("salary").alias("emp_salary"),
+    col("department").alias("emp_dept")
+).display()
+
+# Display city as work_location
+df.select(col("city").alias("work_location")).display()
+
+
+# =========================
+# FILTER / WHERE
+# =========================
+
+# Filter employees whose salary is greater than 70000
+df.filter(col("salary") > 70000).display()
+
+# Filter employees from Hyderabad
+df.filter(col("city") == "Hyderabad").display()
+
+# Filter employees whose age is less than 25
+df.filter(col("age") < 25).display()
+
+# Filter employees from IT department
+df.filter(col("department") == "IT").display()
+
+# Filter employees whose designation is Developer
+df.filter(col("designation") == "Developer").display()
+
+# Filter employees whose salary is between 50000 and 80000
+df.filter(col("salary").between(50000, 80000)).display()
+
+# Filter employees whose city is Bangalore
+df.filter(col("city") == "Bangalore").display()
+
+# Filter employees who joined after 2022-01-01
+df.filter(col("joining_date") > "2022-01-01").display()
+
+# Filter employees whose age is greater than 30
+df.filter(col("age") > 30).display()
+
+# Filter employees whose salary is less than 50000
+df.filter(col("salary") < 50000).display()
+
+# Filter employees from Chennai and salary greater than 60000
+df.filter((col("city") == "Chennai") & (col("salary") > 60000)).display()
+
+# Filter employees from Mumbai or Pune
+df.filter((col("city") == "Mumbai") | (col("city") == "Pune")).display()
+
+# Filter employees whose name starts with 'S'
+df.filter(col("emp_name").startswith("S")).display()
+
+# Filter employees whose name ends with 'a'
+df.filter(col("emp_name").endswith("a")).display()
+
+# Filter employees whose department is HR
+df.filter(col("department") == "HR").display()
+
+# Filter employees whose designation contains 'Engineer'
+df.filter(col("designation").contains("Engineer")).display()
+
+# Filter employees whose city is not Hyderabad
+df.filter(col("city") != "Hyderabad").display()
+
+# Filter employees aged between 25 and 30
+df.filter(col("age").between(25, 30)).display()
+
+# Filter employees with salary greater than 90000
+df.filter(col("salary") > 90000).display()
+
+# Filter employees from Support department
+df.filter(col("department") == "Support").display()
+
+
+# =========================
+# WITHCOLUMNRENAMED
+# =========================
+
+# Rename emp_name to employee_name
+df.withColumnRenamed("emp_name", "employee_name").display()
+
+# Rename department to dept
+df.withColumnRenamed("department", "dept").display()
+
+# Rename joining_date to doj
+df.withColumnRenamed("joining_date", "doj").display()
+
+# Rename salary to monthly_salary
+df.withColumnRenamed("salary", "monthly_salary").display()
+
+# Rename designation to job_role
+df.withColumnRenamed("designation", "job_role").display()
+
+# Rename city to work_location
+df.withColumnRenamed("city", "work_location").display()
+
+# Rename age to employee_age
+df.withColumnRenamed("age", "employee_age").display()
+
+# Rename emp_id to employee_id
+df.withColumnRenamed("emp_id", "employee_id").display()
+
+# Rename department to business_unit
+df.withColumnRenamed("department", "business_unit").display()
+
+
+# =========================
+# WITHCOLUMN
+# =========================
+
+# Create bonus column as 10% of salary
+df.withColumn("bonus", col("salary") * 0.10).display()
+
+# Create annual_salary column
+df.withColumn("annual_salary", col("salary") * 12).display()
+
+# Create tax column as 5% of salary
+df.withColumn("tax", col("salary") * 0.05).display()
+
+# Create updated_salary by adding 5000
+df.withColumn("updated_salary", col("salary") + 5000).display()
+
+# Create salary_category column
+df.withColumn(
+    "salary_category",
+    when(col("salary") > 80000, "High")
+    .when(col("salary") > 50000, "Medium")
+    .otherwise("Low")
+).display()
+
+# Create age_group column
+df.withColumn(
+    "age_group",
+    when(col("age") < 25, "Young")
+    .otherwise("Adult")
+).display()
+
+# Create location column by combining city and department
+df.withColumn(
+    "location",
+    concat(col("city"), lit("-"), col("department"))
+).display()
+
+# Create increment_salary column with 15% hike
+df.withColumn(
+    "increment_salary",
+    col("salary") * 1.15
+).display()
+
+# Create name_length column using employee name
+df.withColumn(
+    "name_length",
+    length(col("emp_name"))
+).display()
+
+# Create is_high_salary column using condition
+df.withColumn(
+    "is_high_salary",
+    when(col("salary") > 70000, True).otherwise(False)
+).display()
+
+# Create joining_year column from joining_date
+df.withColumn(
+    "joining_year",
+    year(to_date(col("joining_date")))
+).display()
+
+# Create salary_after_tax column
+df.withColumn(
+    "salary_after_tax",
+    col("salary") - (col("salary") * 0.05)
+).display()
+
+# Create department_code column
+df.withColumn(
+    "department_code",
+    substring(col("department"), 1, 2)
+).display()
+
+# Create double_salary column
+df.withColumn(
+    "double_salary",
+    col("salary") * 2
+).display()
+
+
+# =========================
+# TYPECASTING
+# =========================
+
+# Convert salary to string datatype
+df.withColumn("salary", col("salary").cast("string")).display()
+
+# Convert age to double datatype
+df.withColumn("age", col("age").cast("double")).display()
+
+# Convert joining_date to date datatype
+df.withColumn("joining_date", col("joining_date").cast("date")).display()
+
+# Convert emp_id to string datatype
+df.withColumn("emp_id", col("emp_id").cast("string")).display()
+
+# Convert salary to integer datatype
+df.withColumn("salary", col("salary").cast("int")).display()
+
+# Convert age to string datatype
+df.withColumn("age", col("age").cast("string")).display()
+
+# Convert joining_date to timestamp datatype
+df.withColumn("joining_date", col("joining_date").cast("timestamp")).display()
+
+# Convert salary to float datatype
+df.withColumn("salary", col("salary").cast("float")).display()
+
+# Convert emp_id to long datatype
+df.withColumn("emp_id", col("emp_id").cast("long")).display()
+
+
+# =========================
+# SORT / ORDERBY
+# =========================
+
+# Sort employees by salary ascending
+df.sort("salary").display()
+
+# Sort employees by salary descending
+df.sort(col("salary").desc()).display()
+
+# Sort employees by age descending
+df.sort(col("age").desc()).display()
+
+# Sort employees by emp_name ascending
+df.sort("emp_name").display()
+
+# Sort employees by city and salary descending
+df.sort(col("city"), col("salary").desc()).display()
+
+# Sort employees by joining_date
+df.sort("joining_date").display()
+
+# Sort employees by department
+df.sort("department").display()
+
+# Sort employees by designation descending
+df.sort(col("designation").desc()).display()
+
+# Sort employees first by city then age
+df.sort("city", "age").display()
+
+# Sort employees by salary and limit top 10
+df.sort(col("salary").desc()).limit(10).display()
+
+# Sort employees by emp_id descending
+df.sort(col("emp_id").desc()).display()
+
+# Sort employees from IT department by salary descending
+df.filter(col("department") == "IT") \
+  .sort(col("salary").desc()).display()
+
+# Sort employees by joining_date descending
+df.sort(col("joining_date").desc()).display()
+
+# Sort employees alphabetically by emp_name
+df.sort("emp_name").display()
+
+# Sort employees by multiple columns
+df.sort("city", "salary").display()
+
+
+# =========================
+# LIMIT
+# =========================
+
+# Display first 5 records
+df.limit(5).display()
+
+# Display top 10 employees
+df.limit(10).display()
+
+# Display first 3 employees from IT department
+df.filter(col("department") == "IT").limit(3).display()
+
+# Display top 5 highest salary employees
+df.sort(col("salary").desc()).limit(5).display()
+
+# Display lowest 5 salary employees
+df.sort("salary").limit(5).display()
+
+# Display first 7 rows after sorting by age
+df.sort("age").limit(7).display()
+
+# Display first 2 employees from Hyderabad
+df.filter(col("city") == "Hyderabad").limit(2).display()
+
+# Display first 15 records from dataframe
+df.limit(15).display()
+
+# Display top 5 youngest employees
+df.sort("age").limit(5).display()
+
+# Display first 8 employees after filtering salary > 60000
+df.filter(col("salary") > 60000).limit(8).display()

@@ -1,0 +1,33 @@
+1. read the files and display the data in databricks 
+
+
+big_sales_df = spark.read.format("csv") \
+    .option("header", "true") \
+    .option("inferSchema", "true") \
+    .load("/Workspace/Users/pvenkayya2005@gmail.com/Big Sales.csv")
+
+# Display data
+big_sales_df.display()
+
+# Read empData CSV
+
+emp_df = spark.read.format("csv") \
+    .option("header", "true") \
+    .option("inferSchema", "true") \
+    .load("/Workspace/Users/pvenkayya2005@gmail.com/empData.csv")
+
+# Display data
+emp_df.display()
+
+
+
+#To Show First Rows
+big_sales_df.show(10)
+emp_df.show(10)
+
+#To Check Schema
+
+big_sales_df.printSchema()
+emp_df.printSchema()
+
+
